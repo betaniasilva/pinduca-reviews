@@ -1,0 +1,86 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+model Usuario {
+  id          Int           @id @default(autoincrement())
+  nome        String        @db.VarChar(255)
+  email       String        @unique
+  senha       String        @db.VarChar(255)
+  role        Role          @default(USER)
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  comentarios Comentario[]
+  notas       Nota[]          
+  gibis       Gibi[]
+  logs        Log[]    
+  @@map("usuarios")       
+}
+
+model Gibi {
+  id         Int            @id @default(autoincrement())
+  titulo     String         @db.VarChar(255)
+  ano        Int            @db.Integer
+  sinopse    String?        @db.Text
+  capaUrl    String?
+  autor      String?        @db.VarChar(255)
+  excluido   Boolean        @default(false)
+  createdAt  DateTime       @default(now())
+  updatedAt  DateTime       @updatedAt
+  usuarioId  Int
+  usuario    Usuario        @relation(fields: [usuarioId], references: [id])
+  comentarios Comentario[]
+  notas      Nota[]
+  logs       Log[]
+  @@index([excluido])
+  @@map("gibis")
+}
+
+model Comentario {
+  id        Int          @id @default(autoincrement())
+  conteudo  String       @db.Text
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+  gibiId    Int
+  gibi      Gibi         @relation(fields: [gibiId], references: [id])
+  usuarioId Int
+  usuario   Usuario      @relation(fields: [usuarioId], references: [id])
+  logs      Log[]
+  @@map("comentarios")
+}
+
+model Nota {
+  id        Int          @id @default(autoincrement())
+  avaliacao Int          @default(0) 
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+  gibiId    Int
+  gibi      Gibi         @relation(fields: [gibiId], references: [id])
+  usuarioId Int
+  usuario   Usuario      @relation(fields: [usuarioId], references: [id])
+  @@unique([gibiId, usuarioId])
+  @@map("notas")
+}
+
+model Log {
+  id            Int           @id @default(autoincrement())
+  acao          String
+  createdAt     DateTime      @default(now())
+  usuarioId     Int
+  usuario       Usuario       @relation(fields: [usuarioId], references: [id])
+  gibiId        Int?
+  gibi          Gibi?         @relation(fields: [gibiId], references: [id])
+  comentarioId  Int?
+  comentario    Comentario?  @relation(fields: [comentarioId], references: [id])
+  @@map("logs")
+}
