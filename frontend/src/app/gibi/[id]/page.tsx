@@ -35,7 +35,8 @@ const GibiDetailsPage: React.FC = () => {
     const carregarGibi = async () => {
       setIsLoading(true);
       setErro(null); 
-      const apiUrl = `http://localhost:3001/gibi/${id}`; 
+      const baseUrl = process.env.NEXT_PUBLIC_URL_API;
+      const apiUrl = `${baseUrl}/gibi/${id}`;
       console.log('Buscando detalhes do gibi em:', apiUrl);
 
       try {
@@ -78,7 +79,8 @@ const GibiDetailsPage: React.FC = () => {
     }
 
     setIsDeleting(true); 
-    const apiUrl = `http://localhost:3001/gibi/${gibi.id}`;
+    const baseUrl = process.env.NEXT_PUBLIC_URL_API;
+    const apiUrl = `${baseUrl}/gibi/${gibi.id}`;
 
     try {
         const response = await fetch(apiUrl, {

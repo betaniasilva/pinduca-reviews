@@ -51,7 +51,7 @@ const ListaComentarios: React.FC<ListaComentariosProps> = ({
       setIsLoading(true);
       setErro('');
       try {
-        const apiUrl = `http://localhost:3001/comentario/${gibiId}`;
+        const apiUrl = `${process.env.NEXT_PUBLIC_URL_API}/comentario/${gibiId}`;
         console.log("ListaComentarios: Buscando de:", apiUrl);
         const response = await fetch(apiUrl); 
         if (!response.ok) { throw new Error(`Erro ao carregar: ${response.status}`); }
@@ -91,7 +91,8 @@ const ListaComentarios: React.FC<ListaComentariosProps> = ({
     if (!editText.trim()) { toast.warning("O comentário não pode ficar vazio."); return; }
 
     setSavingId(editingId); 
-    const apiUrl = `http://localhost:3001/comentario/${editingId}`; 
+    const baseUrl = process.env.NEXT_PUBLIC_URL_API;
+    const apiUrl = `${baseUrl}/comentario/${editingId}`;
 
     try {
       const response = await fetch(apiUrl, {
@@ -124,7 +125,8 @@ const ListaComentarios: React.FC<ListaComentariosProps> = ({
     if (!window.confirm('Tem certeza que deseja excluir este comentário?')) return;
 
     setDeletingId(comentarioId); 
-    const apiUrl = `http://localhost:3001/comentario/${comentarioId}`; 
+    const baseUrl = process.env.NEXT_PUBLIC_URL_API;
+    const apiUrl = `${baseUrl}/comentario/${comentarioId}`;
 
     try {
       const response = await fetch(apiUrl, {

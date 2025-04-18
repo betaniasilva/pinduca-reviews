@@ -28,8 +28,10 @@ const RegisterPage: React.FC = () => {
 
         try {
             registerSchema.parse({ nome, email, senha, confirmarSenha });
-
-            const response = await fetch('http://localhost:3001/usuario', {
+            const baseUrl = process.env.NEXT_PUBLIC_URL_API;
+            const apiUrl = `${baseUrl}/usuario`;
+            
+            const response = await fetch(apiUrl, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

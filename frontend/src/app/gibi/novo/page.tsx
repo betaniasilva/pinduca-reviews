@@ -57,7 +57,8 @@ export default function AdicionarGibiPage() {
         return;
     }
 
-    const apiUrl = 'http://localhost:3001/gibi'; 
+    const baseUrl = process.env.NEXT_PUBLIC_URL_API;
+    const apiUrl = `${baseUrl}/gibi`;
 
     try {
       const response = await fetch(apiUrl, {
@@ -83,7 +84,7 @@ export default function AdicionarGibiPage() {
 
       toast.success('Gibi cadastrado com sucesso!');
       setFormData({ titulo: '', ano: '', sinopse: '', capaUrl: '', autor: ''});
-      router.push('//'); 
+      router.push('/'); 
 
     } catch (error: unknown) {
       console.error("Erro ao cadastrar gibi:", error);

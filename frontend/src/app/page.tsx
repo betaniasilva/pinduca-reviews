@@ -16,9 +16,16 @@ export default function HomePage() {
     setIsLoading(true);
     setError(null);
 
-    let apiUrl = 'http://localhost:3001/gibi';
-    const trimmedQuery = query.trim();
+    const baseUrl = process.env.NEXT_PUBLIC_URL_API; 
+    if (!baseUrl) {
+        console.error("Variável NEXT_PUBLIC_URL_API não definida!");
+        setError("Configuração de API ausente.");
+        setIsLoading(false);
+        return;
+    }
+    let apiUrl = `${baseUrl}/gibi`;
 
+    const trimmedQuery = query.trim();
     if (trimmedQuery) {
       apiUrl += `?q=${encodeURIComponent(trimmedQuery)}`;
     }
@@ -52,7 +59,7 @@ export default function HomePage() {
     fetchGibis(searchQuery); 
   };
 
-  const handleCardClick = (id: number) => { router.push(`/gibi/${id}`); };
+  const handleCardClick = (id: number) => { router.push(`gibi/${id}`); };
 
   return (
     <div className="container mx-auto px-4 py-8">

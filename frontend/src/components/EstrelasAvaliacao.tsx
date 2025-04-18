@@ -27,7 +27,11 @@ const EstrelasAvaliacao: React.FC<EstrelasAvaliacaoProps> = ({ gibiId, onRatingA
     console.log('Enviando avaliação:', { gibiId, usuarioId: user.id, avaliacao: novaAvaliacao });
 
     try {
-      const response = await fetch('http://localhost:3001/nota', { 
+      const baseUrl = process.env.NEXT_PUBLIC_API_URL;
+      const apiUrl = `${baseUrl}/nota`;
+      console.log('Enviando avaliação para:', apiUrl);
+
+      const response = await fetch(apiUrl, { 
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -53,7 +57,7 @@ const EstrelasAvaliacao: React.FC<EstrelasAvaliacaoProps> = ({ gibiId, onRatingA
       const data = await response.json();
       console.log('Avaliação enviada com sucesso!', data);
       toast.success('Avaliação enviada com sucesso!');
-
+      toast.success('Avaliação processada!');
       if (onRatingAdded) {
         onRatingAdded();
       }
@@ -64,7 +68,6 @@ const EstrelasAvaliacao: React.FC<EstrelasAvaliacaoProps> = ({ gibiId, onRatingA
       toast.error(errorMessage || 'Erro desconhecido ao avaliar.');
     } finally {
       setIsSubmitting(false);
-      toast.success('Avaliação processada!');
     }
   };
 

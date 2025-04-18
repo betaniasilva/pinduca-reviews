@@ -22,7 +22,9 @@ const LoginModal: React.FC<LoginModalProps> = ({ onClose }) => {
         setErrorMessage('');
         setIsLoading(true);
         try {
-            const response = await fetch('http://localhost:3001/login', {
+            const baseUrl = process.env.NEXT_PUBLIC_URL_API;
+            const apiUrl = `${baseUrl}/login`;
+            const response = await fetch(apiUrl, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

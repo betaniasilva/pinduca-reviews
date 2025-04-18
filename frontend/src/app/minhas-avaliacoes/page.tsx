@@ -28,7 +28,10 @@ export default function MinhasAvaliacoesPage() {
       const fetchMeusGibis = async () => {
         setIsLoadingData(true); 
         setError(null);
-        const apiUrl = 'http://localhost:3001/usuario/me/avaliacoes'; 
+
+        const baseUrl = process.env.NEXT_PUBLIC_URL_API;
+        const apiUrl = `${baseUrl}/usuario/me/avaliacoes`;
+
         console.log("MinhasAvaliacoesPage: Buscando de:", apiUrl);
 
         try {

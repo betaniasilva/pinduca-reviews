@@ -28,7 +28,10 @@ const FormComentario: React.FC<FormComentarioProps> = ({ gibiId, onCommentAdded 
     console.log('Enviando comentário:', { conteudo, gibiId, usuarioId: user.id });
 
     try {
-      const response = await fetch('http://localhost:3001/comentario', { 
+      const baseUrl = process.env.NEXT_PUBLIC_URL_API;
+      const apiUrl = `${baseUrl}/comentario`;
+      console.log('Enviando comentário para:', apiUrl);
+      const response = await fetch(apiUrl, { 
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -21,7 +21,9 @@ export default function GibisPage() {
   useEffect(() => {
     const buscaDados = async () => {
       try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/gibi`);
+        const baseUrl = process.env.NEXT_PUBLIC_URL_API;
+        const apiUrl = `${baseUrl}/gibi`;
+        const response = await fetch(apiUrl, { cache: 'no-store' });
         if (!response.ok) {
           throw new Error(`Erro ao buscar gibis: ${response.status}`);
         }
